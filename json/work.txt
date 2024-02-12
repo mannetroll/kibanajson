@@ -1,0 +1,12 @@
+#
+# jq
+#
+GET /*filebeat*/_field_caps?fields=*
+cat filebeat-8.12.1.json | jq . --sort-keys > slask.json
+cat slask.json | jq .fields | jq keys | tr -d ' ' | tr -d '"' | tr -d ',' > filebeat-keys.txt
+
+
+bash hits.sh | jq .hits.hits.[]._source | jq -s '.' > hits.json
+cat hits.json | jq -r '(.[0] | keys_unsorted) as $keys | $keys, map([.[ $keys[] ]])[] | @csv' > hits.csv
+cat hits.json | jq -r '(map(keys) | add | unique) as $cols | map(. as $row | $cols | map($row[.])) as $rows | $cols, $rows[] | @csv' > hits.csv
+

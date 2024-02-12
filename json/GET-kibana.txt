@@ -1,0 +1,121 @@
+#
+#  curl -s 'http://localhost:5601/api/index_patterns/_fields_for_wildcard?pattern=shipments*' | jq .fields[].name | grep -v 'keyword' | tr -d '"' | sort
+#
+GET /
+
+#
+# _data_stream
+#
+GET _data_stream
+GET _data_stream?filter_path=data_streams.name
+GET _data_stream/_stats
+
+GET logstash/_count
+GET logstash/_search
+
+GET _field_caps?fields=_version
+GET /shipments*/_field_caps?fields=*&ignore_unavailable=true&allow_no_indices=false
+GET /shipments*/_field_caps?fields=*
+GET /ship*2024.02*/_field_caps?fields=*
+
+#
+# indices
+#
+GET _cat/indices?s=i
+GET _cat/indices/*20*?s=i&v&h=h,s,i,p,r,dc,ss
+
+#
+# _cluster
+#
+GET _cat/nodes/?v
+GET _cluster/stats
+GET _cluster/health
+GET _cluster/state
+GET _cluster/settings
+
+#
+# _nodes
+#
+GET _cat/nodes?v=true&pretty
+GET _nodes/stats
+GET _nodes/usage
+GET _nodes/hot_threads
+GET _nodes/hot_threads?threads=5
+
+#
+# _template
+#
+GET _cat/templates?s=t&v&h=name,index_patterns
+GET _cat/templates
+GET _cat/templates?s=t&v
+GET _cat/templates/*_template?s=t&v
+
+GET _template/ecem_template
+GET _template/idref_template
+GET _template/items_template
+GET _template/kpi_template
+GET _template/shipments_template
+
+GET shipments-2024.02.09/_mapping
+GET testindex/_mapping
+GET testindex/_doc/testdoc
+
+#
+# _settings
+#
+GET _settings
+GET shipments-2022.08.26/_settings
+GET shipments-2022.08.26/_mappings
+
+PUT shipments-2024.01.02/_settings
+{
+    "index" : {
+        "refresh_interval": "1m"
+    }
+}
+
+#
+# _reindex
+#
+GET _tasks/?pretty&detailed=true&actions=*reindex
+GET _tasks?actions=*reindex&detailed
+POST _tasks/xpI30bApTv2zXpuevs_-_g:351082/_cancel
+
+POST _reindex?wait_for_completion=false
+{
+  "conflicts":"proceed",
+  "source": {
+    "index": "shipments-2024.01.02",
+    "size": 10000
+  },
+  "dest": {
+    "index": "shipments-2024.01.02.copy",
+    "op_type": "create"    
+  }
+}
+
+#
+# _mapping (e.g. geo_point)
+#
+GET shipments-2024.01.02/_mapping
+
+PUT shipments-2024.01.02/_mapping
+{
+  "properties": {
+    "cemevent_geopoint": {
+      "type": "geo_point"
+    }
+  }
+}
+
+GET shipments-2024.*/_search
+{
+  "size": 0,
+  "aggs": {
+    "unique_shipmentId": {
+      "cardinality": {
+        "field": "shipmentId"
+      }
+    }
+  }
+}

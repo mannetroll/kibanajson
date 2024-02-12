@@ -1,0 +1,18 @@
+{
+  "space" : {
+    "name" : "space_Name",
+    "description" : "space_Description",
+    "color" : "#D6BF57",
+    "initials" : "s",
+    "imageUrl" : "",
+    "disabledFeatures" : [ ]
+  },
+  "type" : "space",
+  "references" : [ ],
+  "managed" : false,
+  "coreMigrationVersion" : "8.8.0",
+  "typeMigrationVersion" : "6.6.0",
+  "updated_at" : "2024-02-11T15:34:49.822Z",
+  "created_at" : "2024-02-11T15:34:49.822Z",
+  "curl" : "PUT /.kibana_8.12.1/_create/space:space_name?refresh=wait_for&require_alias=true"
+}

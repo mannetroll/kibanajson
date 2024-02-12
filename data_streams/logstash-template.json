@@ -1,0 +1,10 @@
+{
+  "index_patterns" : [ "logstash*" ],
+  "data_stream" : { },
+  "composed_of" : [ "logstash-mappings", "logstash-settings" ],
+  "priority" : 500,
+  "_meta" : {
+    "description" : "Template for my time series data",
+    "my-custom-meta-field" : "More arbitrary metadata"
+  }
+}

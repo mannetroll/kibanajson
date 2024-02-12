@@ -1,0 +1,70 @@
+#
+# space
+#
+PUT /.kibana_8.12.1/_create/space:space_name?refresh=wait_for&require_alias=true
+GET /.kibana_8.12.1/_doc/space:space_name
+PUT /.kibana_8.12.1/_doc/space:space_name?refresh=wait_for&if_seq_no=691&if_primary_term=4&require_alias=true
+
+POST /.kibana_8.12.1/_search?rest_total_hits_as_int=true&filter_path=hits.hits._source.space.name
+POST /.kibana_8.12.1/_search?rest_total_hits_as_int=true
+{
+  "size" : 1000,
+  "seq_no_primary_term" : true,
+  "from" : 0,
+  "query" : {
+    "bool" : {
+      "filter" : [ {
+        "bool" : {
+          "should" : [ {
+            "bool" : {
+              "must" : [ {
+                "term" : {
+                  "type" : "space"
+                }
+              } ],
+              "must_not" : [ {
+                "exists" : {
+                  "field" : "namespace"
+                }
+              }, {
+                "exists" : {
+                  "field" : "namespaces"
+                }
+              } ]
+            }
+          } ],
+          "minimum_should_match" : 1
+        }
+      } ]
+    }
+  },
+  "sort" : [ {
+    "space.name.keyword" : {
+      "unmapped_type" : "keyword"
+    }
+  } ]
+}
+
+
+POST /shipments-*/_field_caps?ignore_unavailable=true&expand_wildcards=open&allow_no_indices=true
+GET /_nodes?filter_path=nodes.*.version,nodes.*.http.publish_address,nodes.*.ip
+
+GET _index_template?filter_path=index_templates.name
+GET _template
+
+GET /.kibana_8.12.1/_doc/telemetry:telemetry
+GET /_component_template
+GET /_index_template
+
+
+#
+# _field_caps
+#
+GET /shipments*/_field_caps?fields=*
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.text.type
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.keyword.type
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.object.type
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.float.type
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.integer.type
+GET /shipments*/_field_caps?fields=*&filter_path=fields.*.boolean.type
+

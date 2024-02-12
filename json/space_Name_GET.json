@@ -1,0 +1,26 @@
+{
+  "_index" : ".kibana_8.12.1_001",
+  "_id" : "space:space_name",
+  "_version" : 3,
+  "_seq_no" : 695,
+  "_primary_term" : 4,
+  "found" : true,
+  "_source" : {
+    "space" : {
+      "name" : "space_Name",
+      "description" : "space_Description",
+      "color" : "#D6BF57",
+      "initials" : "s",
+      "imageUrl" : "",
+      "disabledFeatures" : [ "discover", "dashboard", "canvas", "maps", "ml", "visualize", "logs", "infrastructure", "apm", "uptime", "observabilityCases", "slo", "siem", "securitySolutionCases" ]
+    },
+    "type" : "space",
+    "references" : [ ],
+    "managed" : false,
+    "coreMigrationVersion" : "8.8.0",
+    "typeMigrationVersion" : "6.6.0",
+    "updated_at" : "2024-02-11T15:49:40.897Z",
+    "created_at" : "2024-02-11T15:34:49.822Z",
+    "curl" : "GET /.kibana_8.12.1/_doc/space:space_name"
+  }
+}
